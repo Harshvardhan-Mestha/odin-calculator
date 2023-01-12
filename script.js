@@ -1,9 +1,12 @@
 
 let pt_flg = false;
 let opr_flg = false;
+let per_flg = false;
+let per_cntr = 0;
 let ans = 0;
 let x = 0;
 let y = 0;
+let p = 0;
 let operator = ""
 
 let opr_btns = document.querySelectorAll('button.opr')
@@ -36,10 +39,12 @@ clear()
 
 
 function display_num(e){
-    if (disp.textContent == "0" || opr_flg == true){
+    disp.style.cssText = "font-size: 4vh;"
+    if (disp.textContent == "0" || opr_flg == true || per_flg == true){
         disp.textContent = ""
         opr_flg = false
         pt_flg = false
+        per_flg = false
     }
     
     disp.textContent = disp.textContent + e.target.id
@@ -58,13 +63,17 @@ function operand(e){
 
 
 function clear(){
+    disp.style.cssText = "font-size: 4vh;"
     disp.textContent = "0";
     opr_btns.forEach(opr_btn => opr_btn.classList.remove('opr_hvr'))
+    pt_flg = false
 }
 
 function backspace(){
+    if(disp.textContent[disp.textContent.length-1] == "."){pt_flg = false}
     disp.textContent = disp.textContent.slice(0,-1)
     if (disp.textContent == "" || disp.textContent == "-"){clear()}
+    
 }
 
 function sign(){
@@ -73,8 +82,13 @@ function sign(){
 }
 
 function percent(){
-    let x = Number(disp.textContent)
-    disp.textContent = parseFloat(x/100)
+    x = disp.textContent
+    per_flg = true
+    if(per_flg == true){
+        operate()
+    }
+   
+
 }
 
 function decimal(){
@@ -103,14 +117,20 @@ function operate(){
         ans = Number(x) / Number(y)
     }
 
+    if(per_flg == true){ans = ans = Number(x) / Number(100)}
+
     opr_btns.forEach(opr_btn => opr_btn.classList.remove('opr_hvr'))
     //trim_output()
     disp.textContent = ans
-    if (String(ans).length>=14){
-        ans = ans.toExponential(7)
-        disp.textContent = parseFloat(ans)
+    if (String(ans).length>=13){
+        console.log('here')
+        
+        disp.style.cssText = "font-size: 3vh;"
+        ans = ans.toExponential(12)
+        disp.textContent = ans
     }
-    console.log(parseFloat(ans))
+    
+    
     operator = "done"
     
 }

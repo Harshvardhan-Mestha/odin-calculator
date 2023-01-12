@@ -60,3 +60,6 @@ button{
 .num_hvr{background-color: rgb(24, 17, 34, 1);color: white;}
 .fnc_hvr{background-color: rgb(50, 50, 50);color: white;}
 .eql_hvr{background-color: dodgerblue;color: white;}
+
+
+.small{font-size: 3vh;}
